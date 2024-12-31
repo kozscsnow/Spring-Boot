@@ -1,4 +1,4 @@
-package myFirstApp.Todo;
+package jpa_hibernate.jpa_hibernate.MVC.Todo;
 
 import java.time.LocalDate;
 

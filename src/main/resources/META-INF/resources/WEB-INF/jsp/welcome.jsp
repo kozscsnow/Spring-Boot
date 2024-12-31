@@ -9,9 +9,10 @@
 
 
            <body>
-               Welcome to the next page
-               <h1>${username}</h1>
-               <h1>${password}</h1>
-
+               Welcome to the Todos Page
+               <h1>Your name ${username}</h1>
+                <div>
+                    <a href="list-todos"> Todos Manage </a>
+                </div>
            </body>
        </html>
