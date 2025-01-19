@@ -21,14 +21,16 @@ public class TodoController {
 
     @RequestMapping("list-todos")
     public String listAllTodos(ModelMap model) {
-        List<Todo> todos = todoService.findMyUsername("Khanh");
+        List<Todo> todos = todoService.findMyUsername("123");
         model.put("todos", todos);
         return "listTodos";
     }
 
     @RequestMapping(value = "add-todo", method = RequestMethod.GET)
     public String showNewTodoPage(ModelMap model) {
-        String username = (String) model.get("name");
+        String username = (String)model.get("username");
+        String name = (String)model.get("username");
+        System.out.println(name);
         Todo todo = new Todo(0, username, "", LocalDate.now().plusYears(1), false);
         model.put("todo", todo);
         return "todo";
@@ -39,13 +41,32 @@ public class TodoController {
         if(result.hasErrors()) {
             return "todo";
         }
-        String name = (String) model.get("name");
-        todoService.addTodo(name, todo.getDescription(), LocalDate.now().plusYears(1), false);
+        String username = (String)model.get("username");
+        todoService.addTodo("username123", todo.getDescription(), LocalDate.now().plusYears(1), false);
         return "redirect:list-todos";
     }
+
     @RequestMapping("delete-todo")
     public String deleteTodo(@RequestParam int id) {
         todoService.deleteTodoById(id);
+        return "redirect:list-todos";
+    }
+    @RequestMapping(value="update-todo", method = RequestMethod.GET)
+    public String showUpdateTodo(@RequestParam int id, ModelMap model) {
+        Todo todo = todoService.findById(id);
+        model.addAttribute("todo", todo);
+        return "todo";
+    }
+
+    @RequestMapping(value="update-todo", method = RequestMethod.POST)
+    public String updateTodo(ModelMap model, @Valid Todo todo, BindingResult result) {
+        if(result.hasErrors()) {
+            return "todo";
+        }
+        String username = (String)model.get("username");
+        System.out.println(username);
+        todo.setUsername(username);
+        todoService.updateTodo(todo);
         return "redirect:list-todos";
     }
 }
